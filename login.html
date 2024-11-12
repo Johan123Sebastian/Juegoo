@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Welcome Back</h2>
+        <form>
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Your Email" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="button" class="login-button" onclick="register()">Login</button>
+            
+        </form>
+    </div>
+    <script>
+        function register() {
+            // Puedes agregar aquí la lógica de registro si es necesario
+            // Simulamos que el registro es exitoso y redirigimos al login
+            window.location.href = "vocabulario.html"; // Redirige al login
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 400px;
+            transform: translateY(0);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .form-container h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        label {
+            position: absolute;
+            left: 0;
+            top: -25px;
+            color: #a0a0a0;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            background: transparent;
+            color: #fff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        input:focus {
+            outline: none;
+            border-bottom-color: #8c8cff;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #8c8cff, #7c7cd6);
+            border: none;
+            border-radius: 25px;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(140, 140, 255, 0.3);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        input:invalid:not(:placeholder-shown) {
+            animation: shake 0.3s ease-in-out;
+            border-bottom-color: #ff8c8c;
+        }
+    </style>
+</body>
+</html>

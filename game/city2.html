@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Vocabulary Quiz</title>
+    <style>
+              @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-image: linear-gradient(to bottom, #ADD8E6, #87CEEB);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 80%;
+    max-width: 800px;
+    position: relative;
+    overflow: hidden;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    color: #2980b9;
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.header h2 {
+    color: #2980b9;
+    font-size: 2rem;
+    margin-top: 0;
+}
+
+.start-screen,
+.level-complete-screen,
+.game-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.start-btn,
+.level-btn {
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.start-btn:hover,
+.level-btn:hover {
+    background-color: #3498db;
+}
+
+.retry-btn {
+    background-color: #e74c3c;
+}
+
+.retry-btn:hover {
+    background-color: #c0392b;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.stats .stat-item {
+    display: flex;
+    align-items: center;
+}
+
+.stats .stat-item span {
+    margin-right: 0.5rem;
+}
+
+.progress-container {
+    width: 100%;
+    height: 20px;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.progress {
+    height: 100%;
+    background-color: #2980b9;
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+.question-container {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.question-container h3 {
+    font-size: 1.5rem;
+    color: #2980b9;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1rem;
+}
+
+.option {
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 5px;
+    padding: 1rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.option:hover {
+    background-color: #e6e6e6;
+    transform: translateY(-5px);
+}
+
+.option.correct {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.option.incorrect {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.fade-out {
+    animation: fadeOut 0.5s ease-in-out;
+}
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>English Vocabulary Quiz</h1>
+            <h2>City</h2>
+        </div>
+
+        <div class="start-screen">
+            <h2>Welcome to the Quiz!</h2>
+            <p>Test your English vocabulary about jungle and desert</p>
+            <button id="start-btn" class="start-btn">Start Quiz</button>
+        </div>
+
+        <div class="level-complete-screen hidden">
+            <h2>Level Complete!</h2>
+            <p>Congratulations! You've completed level <span id="completed-level">1</span></p>
+            <p>Your current score: <span id="current-score">0</span></p>
+            <button id="next-level-btn" class="level-btn">Continue to Next Level</button>
+            <button id="retry-level-btn" class="level-btn retry-btn">Retry Current Level</button>
+            <a href="../vocabulario.html"><button id="back-to-start-btn" class="level-btn">Volver al inicio</button></a> 
+        </div>
+
+        <div class="game-screen hidden">
+            <div class="stats">
+                <div class="stat-item">
+                    <span>❤️ Lives:</span>
+                    <span id="lives">5</span>
+                </div>
+                <div class="stat-item">
+                    <span>⏱️ Time:</span>
+                    <span id="timer">30</span>s
+                </div>
+                <div class="stat-item">
+                    <span>🏆 Score:</span>
+                    <span id="score">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>📈 Level:</span>
+                    <span id="level">1</span>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress" id="progress"></div>
+            </div>
+
+            <div class="question-container">
+                <h3 id="question">Question here</h3>
+            </div>
+
+            <div class="options">
+                <button class="option" data-index="0"></button>
+                <button class="option" data-index="1"></button>
+                <button class="option" data-index="2"></button>
+                <button class="option" data-index="3"></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+             // JavaScript code goes here
+
+             const allQuestions = [
+            // Level 1 - Easy
+            {
+                question: "The bus is ______ than the scooter because it can carry more people at once.",
+                palabra: "bigger",
+                options: ["faster", "smaller", "bigger", "slower"],
+                correct: 2,
+                difficulty: 1
+            },
+            {
+                question: "The library is usually ______ than the mall because people go there to read in silence.",
+                palabra: "quieter",
+                options: ["quieter", "louder", "larger", "busier"],
+                correct: 0,
+                difficulty: 1
+            },
+            {
+                question: "The nurse is often ______ than the doctor because they spend more time with each patient.",
+                palabra: "more attentive",
+                options: ["more attentive", "busier", "less important", "older"],
+                correct: 0,
+                difficulty: 1
+            },
+            // Level 2 - Medium
+            {
+                question: "The subway is ______ than the bus during rush hour because it avoids traffic.",
+                palabra: "faster",
+                options: ["faster", "slower", "larger", "cheaper"],
+                correct: 0,
+                difficulty: 2
+            },
+            {
+                question: "The hospital is generally ______ than a restaurant because of its importance in emergencies.",
+                palabra: "more important",
+                options: ["larger", "more fun", "more crowded", "more important"],
+                correct: 3,
+                difficulty: 2
+            },
+            {
+                question: "A teacher is often ______ than a lawyer because they spend more time guiding students.",
+                palabra: "more patient",
+                options: ["more patient", "more serious", "busier", "more knowledgeable"],
+                correct: 0,
+                difficulty: 2
+            },
+            // Level 3 - Hard
+            {
+                question: "Of all the city transportation options, the tram is one of the ______ because it runs on rails and avoids traffic jams.",
+                palabra: "most efficient",
+                options: ["slowest", "most comfortable", "most efficient", "largest"],
+                correct: 2,
+                difficulty: 3
+            },
+            {
+                question: "The bank is often considered ______ than the park because of its strict security and formal atmosphere.",
+                palabra: "more serious",
+                options: ["more fun", "quieter", "more serious", "more relaxed"],
+                correct: 2,
+                difficulty: 3
+            },
+            {
+                question: "Among city professions, the firefighter is one of the ______ because they risk their lives to save others.",
+                palabra: "bravest",
+                options: ["smartest", "most popular", "bravest", "busiest"],
+                correct: 2,
+                difficulty: 3
+            },
+        ];
+
+        let score = 0;
+        let lives = 5;
+        let timer = null;
+        let timeLeft = 60;
+        let currentLevel = 1;
+        let availableQuestions = [];
+
+        const startScreen = document.querySelector('.start-screen');
+        const gameScreen = document.querySelector('.game-screen');
+        const levelCompleteScreen = document.querySelector('.level-complete-screen');
+        const startBtn = document.getElementById('start-btn');
+        const nextLevelBtn = document.getElementById('next-level-btn');
+        const retryLevelBtn = document.getElementById('retry-level-btn');
+        const optionBtns = document.querySelectorAll('.option');
+        const questionElement = document.getElementById('question');
+        const livesElement = document.getElementById('lives');
+        const scoreElement = document.getElementById('score');
+        const timerElement = document.getElementById('timer');
+        const levelElement = document.getElementById('level');
+        const progressElement = document.getElementById('progress');
+        const completedLevelElement = document.getElementById('completed-level');
+        const currentScoreElement = document.getElementById('current-score');
+
+        startBtn.addEventListener('click', startGame);
+        nextLevelBtn.addEventListener('click', () => {
+            currentLevel++;
+            startLevel();
+        });
+        retryLevelBtn.addEventListener('click', startLevel);
+        const backToStartBtn = document.getElementById('back-to-start-btn');
+
+// Asumiendo que tienes 3 niveles, puedes modificar este valor si tienes más
+const maxLevel = 3;
+
+// Añade un evento de clic al botón de "Volver al inicio"
+backToStartBtn.addEventListener('click', () => {
+    levelCompleteScreen.classList.add('hidden');
+    startScreen.classList.remove('hidden');
+});
+
+function showLevelCompleteScreen() {
+    levelCompleteScreen.classList.remove('hidden');
+    gameScreen.classList.add('hidden');
+    completedLevelElement.textContent = currentLevel;
+    currentScoreElement.textContent = score;
+}
+
+
+        function startGame() {
+            score = 0;
+            lives = 5;
+            currentLevel = 1;
+            startLevel();
+        }
+
+        function startLevel() {
+            clearInterval(timer);
+            timeLeft = Math.max(10, 30 - ((currentLevel - 1) * 5));
+            loadQuestionsForLevel();
+            updateUI();
+            showGameScreen();
+            loadQuestion();
+            startTimer();
+        }
+
+        function loadQuestionsForLevel() {
+            availableQuestions = allQuestions.filter(q => q.difficulty === currentLevel);
+            if (availableQuestions.length === 0) {
+                showLevelComplete();
+            }
+        }
+
+        function showLevelComplete() {
+            clearInterval(timer);
+            gameScreen.classList.add('hidden');
+            levelCompleteScreen.classList.remove('hidden');
+            completedLevelElement.textContent = currentLevel;
+            currentScoreElement.textContent = score;
+        }
+
+        function startTimer() {
+            if (timer) clearInterval(timer);
+            timerElement.textContent = timeLeft;
+            timer = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    handleWrongAnswer();
+                }
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            if (availableQuestions.length === 0) {
+                showLevelComplete();
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+            const question = availableQuestions[randomIndex];
+            availableQuestions.splice(randomIndex, 1);
+
+            questionElement.textContent = question.question;
+            optionBtns.forEach((btn, index) => {
+                btn.className = 'option';
+                btn.textContent = question.options[index];
+                btn.onclick = () => checkAnswer(index, question.correct);
+            });
+
+            startTimer();
+        }
+
+        function checkAnswer(selectedIndex, correctIndex) {
+            clearInterval(timer);
+
+            optionBtns.forEach((btn, index) => {
+                if (index === correctIndex) {
+                    btn.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            if (selectedIndex === correctIndex) {
+                score += 10 * currentLevel;
+            } else {
+                handleWrongAnswer();
+            }
+
+            updateUI();
+            setTimeout(() => {
+                if (availableQuestions.length > 0) {
+                    loadQuestion();
+                } else {
+                    showLevelComplete();
+                }
+            }, 1000);
+        }
+
+        function handleWrongAnswer() {
+            lives--;
+            if (lives <= 0) {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            clearInterval(timer);
+            alert(`Game Over! Your final score is ${score}`);
+            showStartScreen();
+        }
+
+        function updateUI() {
+            livesElement.textContent = lives;
+            scoreElement.textContent = score;
+            levelElement.textContent = currentLevel;
+            progressElement.style.width = `${((allQuestions.filter(q => q.difficulty === currentLevel).length - availableQuestions.length) / allQuestions.filter(q => q.difficulty === currentLevel).length) * 100}%`;
+        }
+
+        function showGameScreen() {
+            startScreen.classList.add('hidden');
+            levelCompleteScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+        }
+
+        function showStartScreen() {
+            startScreen.classList.remove('hidden');
+            gameScreen.classList.add('hidden');
+            levelCompleteScreen.classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

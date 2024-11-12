@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Vocabulary Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 700px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header h2 {
+            font-size: 1.5em;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 1.1em;
+        }
+
+        .question-container {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.1em;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .option.correct {
+            background: rgba(46, 213, 115, 0.8);
+            transform: scale(1.02);
+        }
+
+        .option.incorrect {
+            background: rgba(255, 71, 87, 0.8);
+            transform: scale(0.98);
+        }
+
+        .start-screen, .level-complete-screen {
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .start-btn, .level-btn {
+            background: linear-gradient(45deg, #00b09b, #96c93d);
+            color: white;
+            margin: 20px;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .retry-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+        }
+
+        .start-btn:hover, .level-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(45deg, #00b09b, #96c93d);
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>English Vocabulary Quiz</h1>
+            <h2>Jungle</h2>
+        </div>
+
+        <div class="start-screen">
+            <h2>Welcome to the Quiz!</h2>
+            <p>Test your English vocabulary about jungle and desert</p>
+            <button id="start-btn" class="start-btn">Start Quiz</button>
+        </div>
+
+        <div class="level-complete-screen hidden">
+            <h2>Level Complete!</h2>
+            <p>Congratulations! You've completed level <span id="completed-level">1</span></p>
+            <p>Your current score: <span id="current-score">0</span></p>
+            <button id="next-level-btn" class="level-btn">Continue to Next Level</button>
+            <button id="retry-level-btn" class="level-btn retry-btn">Retry Current Level</button>
+            <a href="../vocabulario.html"><button id="back-to-start-btn" class="level-btn">Volver al inicio</button></a> 
+        </div>
+
+        <div class="game-screen hidden">
+            <div class="stats">
+                <div class="stat-item">
+                    <span>❤️ Lives:</span>
+                    <span id="lives">5</span>
+                </div>
+                <div class="stat-item">
+                    <span>⏱️ Time:</span>
+                    <span id="timer">30</span>s
+                </div>
+                <div class="stat-item">
+                    <span>🏆 Score:</span>
+                    <span id="score">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>📈 Level:</span>
+                    <span id="level">1</span>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress" id="progress"></div>
+            </div>
+
+            <div class="question-container">
+                <h3 id="question">Question here</h3>
+            </div>
+
+            <div class="options">
+                <button class="option" data-index="0"></button>
+                <button class="option" data-index="1"></button>
+                <button class="option" data-index="2"></button>
+                <button class="option" data-index="3"></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+             // JavaScript code goes here
+
+             const allQuestions = [
+            // Level 1 - Easy
+            {
+                question: "The tiger is ______than the monkey.",
+                palabra: "faster",
+                options: ["faster", "slower", "bigger", "smaller"],
+                correct: 0,
+                difficulty: 1
+            },
+            {
+                question: "The monkey is ____ _____ than the sloth.",
+                palabra: "more agile",
+                options: ["more agile", "less agile", "stronger", "weaker"],
+                correct: 0,
+                difficulty: 1
+            },
+            {
+                question: "The sloth is ____ _____ than the crocodile.",
+                palabra: "slower",
+                options: ["slower", "faster", "bigger", "smaller"],
+                correct: 0,
+                difficulty: 1
+            },
+            // Level 2 - Medium
+            {
+                question: "The bird is ____ ________ than the frog.",
+                palabra: "more colorful",
+                options: ["less colorful", "more colorful", "bigger", "smaller"],
+                correct: 1,
+                difficulty: 2
+            },
+            {
+                question: "The waterfall is ______ than the floodplain.",
+                palabra: "taller",
+                options: ["smaller", "wider", "taller", "shorter"],
+                correct: 2,
+                difficulty: 2
+            },
+            {
+                question: "The river is ______ than the floodplain.",
+                palabra: "smaller",
+                options: ["smaller", "wider", "taller", "shorter"],
+                correct: 0,
+                difficulty: 2
+            },
+            // Level 3 - Hard
+            {
+                question: "The orchid is ___ __ ___ ____ _________ flowers in the jungle.",
+                palabra: "one of the most beautiful",
+                options: ["one of the most beautiful", "one of the tallest", "one of the biggest", "one of the smallest"],
+                correct: 0,
+                difficulty: 3
+            },
+            {
+                question: "Floods are ___ __ ___ ____ _________ natural events in the jungle.",
+                palabra: "one of the most dangerous",
+                options: ["one of the most beautiful", "one of the most dangerous", "one of the most quiet", "one of the most common"],
+                correct: 1,
+                difficulty: 3
+            },
+            {
+                question: "The tiger is _________ than the jaguar.",
+                palabra: "more agile",
+                options: ["more agile", "less agile", "stronger", "weaker"],
+                correct: 0,
+                difficulty: 3
+            },
+        ];
+
+        let score = 0;
+        let lives = 5;
+        let timer = null;
+        let timeLeft = 60;
+        let currentLevel = 1;
+        let availableQuestions = [];
+
+        const startScreen = document.querySelector('.start-screen');
+        const gameScreen = document.querySelector('.game-screen');
+        const levelCompleteScreen = document.querySelector('.level-complete-screen');
+        const startBtn = document.getElementById('start-btn');
+        const nextLevelBtn = document.getElementById('next-level-btn');
+        const retryLevelBtn = document.getElementById('retry-level-btn');
+        const optionBtns = document.querySelectorAll('.option');
+        const questionElement = document.getElementById('question');
+        const livesElement = document.getElementById('lives');
+        const scoreElement = document.getElementById('score');
+        const timerElement = document.getElementById('timer');
+        const levelElement = document.getElementById('level');
+        const progressElement = document.getElementById('progress');
+        const completedLevelElement = document.getElementById('completed-level');
+        const currentScoreElement = document.getElementById('current-score');
+
+        startBtn.addEventListener('click', startGame);
+        nextLevelBtn.addEventListener('click', () => {
+            currentLevel++;
+            startLevel();
+        });
+        retryLevelBtn.addEventListener('click', startLevel);
+        const backToStartBtn = document.getElementById('back-to-start-btn');
+
+// Asumiendo que tienes 3 niveles, puedes modificar este valor si tienes más
+const maxLevel = 3;
+
+// Añade un evento de clic al botón de "Volver al inicio"
+backToStartBtn.addEventListener('click', () => {
+    levelCompleteScreen.classList.add('hidden');
+    startScreen.classList.remove('hidden');
+});
+
+function showLevelCompleteScreen() {
+    levelCompleteScreen.classList.remove('hidden');
+    gameScreen.classList.add('hidden');
+    completedLevelElement.textContent = currentLevel;
+    currentScoreElement.textContent = score;
+}
+
+
+        function startGame() {
+            score = 0;
+            lives = 5;
+            currentLevel = 1;
+            startLevel();
+        }
+
+        function startLevel() {
+            clearInterval(timer);
+            timeLeft = Math.max(10, 30 - ((currentLevel - 1) * 5));
+            loadQuestionsForLevel();
+            updateUI();
+            showGameScreen();
+            loadQuestion();
+            startTimer();
+        }
+
+        function loadQuestionsForLevel() {
+            availableQuestions = allQuestions.filter(q => q.difficulty === currentLevel);
+            if (availableQuestions.length === 0) {
+                showLevelComplete();
+            }
+        }
+
+        function showLevelComplete() {
+            clearInterval(timer);
+            gameScreen.classList.add('hidden');
+            levelCompleteScreen.classList.remove('hidden');
+            completedLevelElement.textContent = currentLevel;
+            currentScoreElement.textContent = score;
+        }
+
+        function startTimer() {
+            if (timer) clearInterval(timer);
+            timerElement.textContent = timeLeft;
+            timer = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    handleWrongAnswer();
+                }
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            if (availableQuestions.length === 0) {
+                showLevelComplete();
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+            const question = availableQuestions[randomIndex];
+            availableQuestions.splice(randomIndex, 1);
+
+            questionElement.textContent = question.question;
+            optionBtns.forEach((btn, index) => {
+                btn.className = 'option';
+                btn.textContent = question.options[index];
+                btn.onclick = () => checkAnswer(index, question.correct);
+            });
+
+            startTimer();
+        }
+
+        function checkAnswer(selectedIndex, correctIndex) {
+            clearInterval(timer);
+
+            optionBtns.forEach((btn, index) => {
+                if (index === correctIndex) {
+                    btn.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            if (selectedIndex === correctIndex) {
+                score += 10 * currentLevel;
+            } else {
+                handleWrongAnswer();
+            }
+
+            updateUI();
+            setTimeout(() => {
+                if (availableQuestions.length > 0) {
+                    loadQuestion();
+                } else {
+                    showLevelComplete();
+                }
+            }, 1000);
+        }
+
+        function handleWrongAnswer() {
+            lives--;
+            if (lives <= 0) {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            clearInterval(timer);
+            alert(`Game Over! Your final score is ${score}`);
+            showStartScreen();
+        }
+
+        function updateUI() {
+            livesElement.textContent = lives;
+            scoreElement.textContent = score;
+            levelElement.textContent = currentLevel;
+            progressElement.style.width = `${((allQuestions.filter(q => q.difficulty === currentLevel).length - availableQuestions.length) / allQuestions.filter(q => q.difficulty === currentLevel).length) * 100}%`;
+        }
+
+        function showGameScreen() {
+            startScreen.classList.add('hidden');
+            levelCompleteScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+        }
+
+        function showStartScreen() {
+            startScreen.classList.remove('hidden');
+            gameScreen.classList.add('hidden');
+            levelCompleteScreen.classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

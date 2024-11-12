@@ -1,0 +1,129 @@
+/* Archivo: jungla.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Verdana', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #4caf50, #2e7d32);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    margin: 20px;
+}
+
+header h1 {
+    font-size: 2.8em;
+    color: #ffeb3b;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+    animation: fadeInDown 2s ease-out;
+}
+
+header p {
+    font-size: 1.2em;
+    margin-top: 10px;
+    color: #c8e6c9;
+    animation: slideIn 2.5s ease-out;
+}
+
+main {
+    width: 85%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section {
+    background: rgba(34, 139, 34, 0.85);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    margin-bottom: 20px;
+    animation: zoomIn 1.5s ease-in-out;
+}
+
+section h2 {
+    font-size: 2em;
+    color: #aed581;
+    text-align: center;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 5px #1b5e20;
+}
+
+section ul {
+    list-style-type: none;
+}
+
+section ul li {
+    padding: 10px;
+    transition: transform 0.3s ease;
+}
+
+section ul li:hover {
+    transform: scale(1.05);
+    color: #ffd54f;
+}
+
+strong {
+    color: #ffcc80;
+}
+
+button {
+    display: inline-block;
+    margin: 25px auto;
+    padding: 12px 24px;
+    background: #8bc34a;
+    color: #263238;
+    font-size: 1.3em;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+    animation: pulse 2s infinite;
+}
+
+button:hover {
+    background: #7cb342;
+    transform: scale(1.1);
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    color: #c8e6c9;
+    font-size: 0.9em;
+}
+
+/* Animaciones */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
